@@ -28,6 +28,7 @@ curl_close($curl);
 
 // Converti en PHP le JSON
 $resultat = json_decode($resultat, true);
+$
 
 
 
