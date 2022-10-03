@@ -64,20 +64,12 @@ require('bdd.php');
         <div class="form-group">
             <label for="exampleSelect1" class="form-label mt-4">Catégorie</label>
             <select class="form-select" id="exampleSelect1">
-                
-           
-            
-                <option> <?php
-            
-            foreach( $resultat as $r) {
-                var_dump($r);
-            }
-
-        ?></option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                <?php
+                    foreach( $resultat['records'] as $r) {
+                        // var_dump($r['fields']);
+                        echo '<option value="'.$r['fields']['Name'].'">'.$r['fields']['Name'].'</option>';
+                    }
+                ?>
             </select>
         </div>
         <div class="form-group">
