@@ -1,8 +1,37 @@
 <?php
+// require('bdd.php');
+$airtableToken = "keyVpYYBeW1Ou7uuY";
 
-require('bdd.php');
+function airtablerequest($url, $token){
+    $curl = curl_init();
 
+    // Spécifie l'URL sur laquelle pointer - fournie par Airtable
+    curl_setopt($curl, CURLOPT_URL,$url);
 
+    //Certificat SSL
+    $certificate = "C:\wamp64\cacert.pem";
+    curl_setopt($curl, CURLOPT_CAINFO, $certificate);
+    curl_setopt($curl, CURLOPT_CAPATH, $certificate);
+
+    // Evite d'afficher sur la page le résultat 
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+    //
+    $authorization = "Authorization: Bearer ".$token;
+
+    // Envoie en header l'authorisation (clé API)
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-type: application/json', $authorization));
+
+    // Execute la session cURL
+    $resultat = curl_exec($curl);
+
+    // Ferme la session cURL
+    curl_close($curl);
+
+    // Converti en PHP le JSON
+    $resultat = json_decode($resultat, true);
+    return $resultat;
+}
 ?>
 
 <html> 
@@ -65,7 +94,8 @@ require('bdd.php');
             <label for="exampleSelect1" class="form-label mt-4">Catégorie</label>
             <select class="form-select" id="exampleSelect1">
                 <?php
-                    foreach( $resultat['records'] as $r) {
+                    $categoriesReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Category?fields%5B%5D=Name", $airtableToken);
+                    foreach( $categoriesReq['records'] as $r) {
                         // var_dump($r['fields']);
                         echo '<option value="'.$r['fields']['Name'].'">'.$r['fields']['Name'].'</option>';
                     }
@@ -75,33 +105,44 @@ require('bdd.php');
         <div class="form-group">
             <label for="exampleSelect1" class="form-label mt-4">Couleur</label>
             <select class="form-select" id="exampleSelect1">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                <?php
+                    $colorsReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Color?fields%5B%5D=Name", $airtableToken);
+                    foreach( $colorsReq['records'] as $r) {
+                        // var_dump($r['fields']);
+                        echo '<option value="'.$r['fields']['Name'].'">'.$r['fields']['Name'].'</option>';
+                    }
+                ?>
             </select>
         </div>
         <div class="form-group">
             <label for="exampleSelect1" class="form-label mt-4">Matière</label>
             <select class="form-select" id="exampleSelect1">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                <?php
+                    $materialsReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Material?fields%5B%5D=Name", $airtableToken);
+                    foreach( $materialsReq['records'] as $r) {
+                        // var_dump($r['fields']);
+                        echo '<option value="'.$r['fields']['Name'].'">'.$r['fields']['Name'].'</option>';
+                    }
+                ?>
             </select>
         </div>
     </div>
-
-    <div class="card bg-light mb-3" style="max-width: 20rem;">
-        <div class="card-header">Header</div>
-        <div class="card-body">
-            <h4 class="card-title">Light card title</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-    </div>
-
+ 
+                <?php 
+                $contentReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Content?fields%5B%5D=Name", $airtableToken);
+                foreach($contentReq['records'] as $r) {
+                    // var_dump($r['fields']);
+                    echo '  <div class="card bg-light mb-3" style="max-width: 20rem;">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                    <h4 class="card-title">'. $r['fields']['Name'] .'</h4>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card\'s content.</p>
+                    </div>
+                </div>';
+                }
+                   ?>
+             
+           
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
