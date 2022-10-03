@@ -8,11 +8,6 @@ function airtablerequest($url, $token){
     // Spécifie l'URL sur laquelle pointer - fournie par Airtable
     curl_setopt($curl, CURLOPT_URL,$url);
 
-    //Certificat SSL
-    $certificate = "C:\wamp64\cacert.pem";
-    curl_setopt($curl, CURLOPT_CAINFO, $certificate);
-    curl_setopt($curl, CURLOPT_CAPATH, $certificate);
-
     // Evite d'afficher sur la page le résultat 
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
@@ -42,7 +37,7 @@ function airtablerequest($url, $token){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SuperVêtements</title>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -50,7 +45,7 @@ function airtablerequest($url, $token){
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">SuperVêtements.fr</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -71,14 +66,6 @@ function airtablerequest($url, $token){
             <a class="nav-link" href="#">About</a>
             </li>
             <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Separated link</a>
-            </div>
             </li>
         </ul>
         <form class="d-flex">
@@ -128,19 +115,22 @@ function airtablerequest($url, $token){
         </div>
     </div>
  
-                <?php 
-                $contentReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Content?fields%5B%5D=Name", $airtableToken);
-                foreach($contentReq['records'] as $r) {
-                    // var_dump($r['fields']);
-                    echo '  <div class="card bg-light mb-3" style="max-width: 20rem;">
-                    <div class="card-header">Header</div>
-                    <div class="card-body">
-                    <h4 class="card-title">'. $r['fields']['Name'] .'</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card\'s content.</p>
-                    </div>
-                </div>';
-                }
-                   ?>
+    <div class="container-cards">
+        <?php 
+        $contentReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Content?fields%5B%5D=Name", $airtableToken);
+        foreach($contentReq['records'] as $r) {
+            // var_dump($r['fields']);
+            echo '
+                    <div class="card bg-light mb-3" style="max-width: 20rem;">
+                        <div class="card-header"><h4 class="card-title">'. $r['fields']['Name'] .'</h4></div>
+                        <div class="card-body">
+                            
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card\'s content.</p>
+                        </div>
+                    </div>';
+        }
+        ?>
+    </div>
              
            
 
