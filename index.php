@@ -27,6 +27,7 @@ function airtablerequest($url, $token){
     $resultat = json_decode($resultat, true);
     return $resultat;
 }
+
 ?>
 
 <html> 
@@ -50,28 +51,6 @@ function airtablerequest($url, $token){
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor03">
-        <!-- <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-            <a class="nav-link active" href="#">Home
-                <span class="visually-hidden">(current)</span>
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item dropdown">
-            </li>
-        </ul> -->
-        <!-- <form class="d-flex">
-            <input class="form-control me-sm-2" type="text" placeholder="Search">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-        </form> -->
         </div>
     </div>
     </nav>
@@ -111,31 +90,10 @@ function airtablerequest($url, $token){
                 ?>
             </select>
         </div>
-        <button id="btn">Get the Selected Value</button>
     </div>
  
     <div class="container-cards">
         <?php 
-        // $tags = array();
-
-        // $contentReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Content", $airtableToken);
-
-        // foreach($contentReq['records'] as $c) {
-        //     array_push($tags, $c['fields']['Name (from Category)']);
-        // }
-        
-        // $id = 0;
-        // foreach($contentReq['records'] as $r) {
-        //     echo '
-        //         <div class="card bg-light mb-3" style="max-width: 20rem;">
-        //             <div class="card-header"><h5 class="card-title">'. $r['fields']['Name'] .'</h5></div>
-        //             <div class="card-body">
-        //                 <p class="card-text">Description de l\'article.</p>
-        //                 <button type="button" class="btn btn-info">'. $tags[$id][0] .'</button>
-        //             </div>
-        //         </div>';
-        //         $id++;
-        // }
 
         $contentReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Content", $airtableToken);
         
@@ -145,10 +103,10 @@ function airtablerequest($url, $token){
                 if ($r['fields']['Status'] == "indisponible"){
                     echo ' card-unavailable';
                 }
-                echo '" style="max-width: 30rem;">
+                echo '" style="max-width: 30rem;" data-id="' . $r['id'] . '">
                     <div class="card-header"><h6 class="card-title">'. $r['fields']['Name'] . ' </h6> <button type="button" class="btn btn-secondary disabled">'. $r['fields']['Status'] .'</button>' . '</div>
                     <div class="card-body">
-                        <p class="card-text">Prix de l\'article : ' . $r['fields']['Price'] . ' €</p>';
+                    <p class="card-text">Prix de l\'article : ' . $r['fields']['Price'] . ' €</p>';
                     echo '</div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">Catégorie : ' . $r['fields']['Name (from Category)'][0] . '</li>
@@ -166,22 +124,24 @@ function airtablerequest($url, $token){
                     <div class="card-footer text-muted">
                     Quantité : ' . $r['fields']['Quantity'] . '
                   </div>
+                  <button type="button" class="btn btn-warning modifier">Modifier</button>
+                  <button type="button" class="btn btn-danger supprimer">Supprimer</button>
                 </div>';
-                
         }
 
         ?>
     </div>
 
-    <pre>
-        <?php
-            var_dump($contentReq)
-        ?>
-    </pre>
 
-<script src="assets/js/script.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+<script src="assets/js/main.js"></script>
+<!-- <script src="assets/js/getAllContent.js"></script> -->
+<script src="assets/js/script.js"></script>
+<!-- <script src="assets/js/getAllContent.js"></script> -->
+
+
 </body>
 
 </html>
