@@ -19,12 +19,13 @@
 
 let btn_modifier = document.querySelectorAll('.supprimer');
 let card = document.querySelector('.card-unavailable');
-let id = card.getAttribute('data-id');
-console.log(id);
+
+
 btn_modifier.forEach((btn)=>{
     btn.addEventListener('click', (e)=>{
         e.preventDefault();
-
+        let id = this.parentNode.getAttribute('data-id');
+        console.log(id);
         let data = {
             'records' : [{
                 "id": "reczs38CmX9xvWuOn",
