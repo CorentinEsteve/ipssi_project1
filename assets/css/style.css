@@ -1,10 +1,12 @@
 .container-form{
     display: flex;
     flex-direction: row;
-    margin-left: 100px;
-    margin-right: 100px;
+    justify-content: flex-start;
     margin-bottom: 20px;
-    justify-content: space-between;
+}
+
+.form-group{
+    margin-left: 20px;
 }
 
 .container-cards{
@@ -12,4 +14,9 @@
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
+}
+
+.card{
+    width: 18%;
+
 }

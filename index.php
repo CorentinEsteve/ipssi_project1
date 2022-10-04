@@ -37,7 +37,7 @@ function airtablerequest($url, $token){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SuperVêtements</title>
+    <title>Super-Vêtements</title>
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -45,12 +45,12 @@ function airtablerequest($url, $token){
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">SuperVêtements.fr</a>
+        <a class="navbar-brand" href="#">Super-Vêtements.fr</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor03">
-        <ul class="navbar-nav me-auto">
+        <!-- <ul class="navbar-nav me-auto">
             <li class="nav-item">
             <a class="nav-link active" href="#">Home
                 <span class="visually-hidden">(current)</span>
@@ -67,11 +67,11 @@ function airtablerequest($url, $token){
             </li>
             <li class="nav-item dropdown">
             </li>
-        </ul>
-        <form class="d-flex">
+        </ul> -->
+        <!-- <form class="d-flex">
             <input class="form-control me-sm-2" type="text" placeholder="Search">
             <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        </form> -->
         </div>
     </div>
     </nav>
@@ -117,22 +117,36 @@ function airtablerequest($url, $token){
  
     <div class="container-cards">
         <?php 
-        $contentReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Content?fields%5B%5D=Name", $airtableToken);
+
+    // code de Thomas
+        // $tags = array();
+
+        // $tag_req = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Category", $airtableToken);
+        // foreach ($tag_req->{'records'} as $k => $v) {
+        //     $fields = $v->{'fields'};
+        //     $tags[$v->id] = $fields->{'Name'};
+        // }
+            
+        $contentReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Content", $airtableToken);
         foreach($contentReq['records'] as $r) {
-            // var_dump($r['fields']);
+            // var_dump($tag_req);
             echo '
-                    <div class="card bg-light mb-3" style="max-width: 20rem;">
-                        <div class="card-header"><h4 class="card-title">'. $r['fields']['Name'] .'</h4></div>
-                        <div class="card-body">
-                            
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card\'s content.</p>
-                        </div>
-                    </div>';
+                <div class="card bg-light mb-3" style="max-width: 20rem;">
+                    <div class="card-header"><h5 class="card-title">'. $r['fields']['Name'] .'</h5></div>
+                    <div class="card-body">
+                        <p class="card-text">Description de l\'article.</p>
+                        <button type="button" class="btn btn-info">'. $r['fields']['Category'] .'</button>
+                    </div>
+                </div>';
         }
         ?>
     </div>
-             
-           
+
+    <pre>
+        <?php
+            var_dump($tag_req);
+        ?>
+    </pre>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
