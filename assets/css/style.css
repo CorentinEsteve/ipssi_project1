@@ -1,3 +1,7 @@
+.navbar-brand img{
+    height: 8vh; 
+}
+
 .container-form{
     display: flex;
     flex-direction: row;
@@ -16,7 +20,37 @@
     justify-content: space-around;
 }
 
-.card{
-    width: 18%;
+.card-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.card{
+    width: 30%;
+}
+
+.card .btn-secondary{
+    color : white;
+    background-color: green;
+    border : 1px solid white;
+}
+
+.card-unavailable {
+    background-color : rgb(205, 205, 205) !important;
+    border: 1px solid rgb(205, 205, 205); 
+}
+
+.card-unavailable .btn-secondary {
+    color : white;
+    background-color: red;
+    border : 1px solid white;
+}
+
+.card-unavailable li{
+    background-color : rgb(232, 232, 232) !important;
+}
+
+.card-body .btn{
+    margin-right: 10px;
 }

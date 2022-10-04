@@ -45,7 +45,7 @@ function airtablerequest($url, $token){
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Super-Vêtements.fr</a>
+        <a class="navbar-brand" href="#"><img src="assets/img/db5b8641-bdd9-43df-924e-d2928e927f4a.jpg"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -83,8 +83,8 @@ function airtablerequest($url, $token){
                 <?php
                     $categoriesReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Category?fields%5B%5D=Name", $airtableToken);
                     foreach( $categoriesReq['records'] as $r) {
-                        // var_dump($r['fields']);
-                        echo '<option value="'.$r['fields']['Name'].'">'.$r['fields']['Name'].'</option>';
+
+                        echo '<option class="option" value="'.$r['fields']['Name'].'">'.$r['fields']['Name'].'</option>';
                     }
                 ?>
             </select>
@@ -95,7 +95,6 @@ function airtablerequest($url, $token){
                 <?php
                     $colorsReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Color?fields%5B%5D=Name", $airtableToken);
                     foreach( $colorsReq['records'] as $r) {
-                        // var_dump($r['fields']);
                         echo '<option value="'.$r['fields']['Name'].'">'.$r['fields']['Name'].'</option>';
                     }
                 ?>
@@ -107,50 +106,82 @@ function airtablerequest($url, $token){
                 <?php
                     $materialsReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Material?fields%5B%5D=Name", $airtableToken);
                     foreach( $materialsReq['records'] as $r) {
-                        // var_dump($r['fields']);
                         echo '<option value="'.$r['fields']['Name'].'">'.$r['fields']['Name'].'</option>';
                     }
                 ?>
             </select>
         </div>
+        <button id="btn">Get the Selected Value</button>
     </div>
  
     <div class="container-cards">
         <?php 
-
-    // code de Thomas
         // $tags = array();
 
-        // $tag_req = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Category", $airtableToken);
-        // foreach ($tag_req->{'records'} as $k => $v) {
-        //     $fields = $v->{'fields'};
-        //     $tags[$v->id] = $fields->{'Name'};
+        // $contentReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Content", $airtableToken);
+
+        // foreach($contentReq['records'] as $c) {
+        //     array_push($tags, $c['fields']['Name (from Category)']);
         // }
-            
+        
+        // $id = 0;
+        // foreach($contentReq['records'] as $r) {
+        //     echo '
+        //         <div class="card bg-light mb-3" style="max-width: 20rem;">
+        //             <div class="card-header"><h5 class="card-title">'. $r['fields']['Name'] .'</h5></div>
+        //             <div class="card-body">
+        //                 <p class="card-text">Description de l\'article.</p>
+        //                 <button type="button" class="btn btn-info">'. $tags[$id][0] .'</button>
+        //             </div>
+        //         </div>';
+        //         $id++;
+        // }
+
         $contentReq = airtableRequest("https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Content", $airtableToken);
+        
         foreach($contentReq['records'] as $r) {
-            // var_dump($tag_req);
             echo '
-                <div class="card bg-light mb-3" style="max-width: 20rem;">
-                    <div class="card-header"><h5 class="card-title">'. $r['fields']['Name'] .'</h5></div>
+                <div class="card bg-light mb-3';
+                if ($r['fields']['Status'] == "indisponible"){
+                    echo ' card-unavailable';
+                }
+                echo '" style="max-width: 30rem;">
+                    <div class="card-header"><h6 class="card-title">'. $r['fields']['Name'] . ' </h6> <button type="button" class="btn btn-secondary disabled">'. $r['fields']['Status'] .'</button>' . '</div>
                     <div class="card-body">
-                        <p class="card-text">Description de l\'article.</p>
-                        <button type="button" class="btn btn-info">'. $r['fields']['Category'] .'</button>
-                    </div>
+                        <p class="card-text">Prix de l\'article : ' . $r['fields']['Price'] . ' €</p>';
+                    echo '</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Catégorie : ' . $r['fields']['Name (from Category)'][0] . '</li>
+                        <li class="list-group-item">Matière : ';
+                        foreach($r['fields']['Name (from Material)'] as $m){
+                            echo $m;
+                        }
+                         echo '</li>
+                        <li class="list-group-item">Couleur(s) : ';
+                        foreach($r['fields']['Name (from Color)'] as $c) {
+                            echo  $c . " ";
+                        }
+                        echo '</li>
+                    </ul>
+                    <div class="card-footer text-muted">
+                    Quantité : ' . $r['fields']['Quantity'] . '
+                  </div>
                 </div>';
+                
         }
+
         ?>
     </div>
 
     <pre>
         <?php
-            var_dump($tag_req);
+            var_dump($contentReq)
         ?>
     </pre>
 
+<script src="assets/js/script.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
 </body>
 
 </html>
-
