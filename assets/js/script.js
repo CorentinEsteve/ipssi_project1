@@ -17,45 +17,159 @@
     // const btn_delete = document.querySelector('.supprimer');
 
 
-let btn_modifier = document.querySelectorAll('.supprimer');
-let card = document.querySelector('.card-unavailable');
+const formatData = (data) => {
+    return { 
+        "fields": {
+        "Name": data.name,
+        "Price": data.price,
+        "Quantity" : data.quantity,
+        "Price" : data.price,
+        }
+    }
+}
 
+let btn_supprimer = document.querySelectorAll('.supprimer');
 
-btn_modifier.forEach((btn)=>{
+btn_supprimer.forEach((btn)=>{
     btn.addEventListener('click', (e)=>{
         e.preventDefault();
-        let id = this.parentNode.getAttribute('data-id');
+        // console.log(btn);
+        let id = btn.parentNode.getAttribute('data-id');
         console.log(id);
-        let data = {
-            'records' : [{
-                "id": "reczs38CmX9xvWuOn",
-            }]
-        }
         
         fetch(`https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Content/${id}?api_key=${API_KEY}`, {
             method: 'DELETE',
             headers: {'Content-Type' : 'application/json'},
-            // body: JSON.stringify(data)
         }).then((response)=>{
             console.log(response);
         }).catch((e)=>{
             console.log('Erreur : '+ e.message);
         })
-        
-        fetch(URL).then((response) => {
-            console.log(response);
-            if(response.ok){
-                response.json().then((data) => {
-                    console.log(data);
-                })
-            }
-            else{
-                console.log('Erreur status !=200');
-            }
-        }).catch((error) => {
-            console.log(`Erreur : ${error.message}`);
-        })
-        
     })
 })
 
+
+let btn_modifier = document.querySelectorAll('.modifier');
+var id;
+
+btn_modifier.forEach((btn)=>{
+    btn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        // console.log(btn);
+        id = btn.parentNode.getAttribute('data-id');
+    })
+});
+
+let btn_envoyer = document.querySelectorAll('.envoyer');
+
+btn_envoyer.forEach((btn)=>{
+    btn.addEventListener('click', (e)=>{
+        e.preventDefault();
+
+        const form = document.getElementById('form');
+        const form_data = new FormData(form);
+      
+        let fields = {};
+
+        if ((form_data.get('Name').length != 0)) {
+            fields['Name'] = form_data.get('Name');
+        }
+        if ((form_data.get('Price').length != 0)) {
+            fields['Price'] = parseFloat(form_data.get('Price'));
+        } 
+        if ((form_data.get('Quantity').length != 0)) {
+            fields['Quantity'] = parseInt(form_data.get('Quantity'));
+        }
+        if ((form_data.get('Status').length != 0)) {
+            fields['Status'] = form_data.get('Status');
+        }  
+        if ((form_data.get('Material') != "selected")) {
+            console.log(form_data.get('Material'));
+            fields['Material'] = [form_data.get('Material')];
+        }  
+        if ((form_data.get('Color') != "selected")) {
+            console.log(form_data.get('Color'));
+            fields['Color'] = [form_data.get('Color')];
+        }  
+        if ((form_data.get('Category') != "selected")) {
+            console.log(form_data.get('Category'));
+            fields['Category'] = [form_data.get('Category')];
+        }         
+           
+        let data = {
+            'records': [{
+                'id' : id,
+                'fields' : fields
+            }]
+        }
+           
+        console.log(data);
+        console.log('id pour modif : '+id);
+
+        fetch(`https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Content?api_key=${API_KEY}`, {
+            method: 'PATCH',
+            headers: {'Content-Type' : 'application/json'},
+            body: JSON.stringify(data)
+        }).then((response)=>{
+            console.log(response);
+        }).catch((e)=>{
+            console.log('Erreur : '+ e.message);
+        })
+    })
+})
+
+let btn_ajouter = document.querySelectorAll('.ajouter');
+
+btn_ajouter.forEach((btn)=>{
+    btn.addEventListener('click', (e)=>{
+        e.preventDefault();
+
+        const form = document.getElementById('form2');
+        const form_data = new FormData(form);
+
+        let fields = {};
+
+        if ((form_data.get('Name').length != 0)) {
+            fields['Name'] = form_data.get('Name');
+        }
+        if ((form_data.get('Price').length != 0)) {
+            fields['Price'] = parseFloat(form_data.get('Price'));
+        } 
+        if ((form_data.get('Quantity').length != 0)) {
+            fields['Quantity'] = parseInt(form_data.get('Quantity'));
+        }
+        if ((form_data.get('Status').length != 0)) {
+            fields['Status'] = form_data.get('Status');
+        }  
+        if ((form_data.get('Material') != "selected")) {
+            console.log(form_data.get('Material'));
+            fields['Material'] = [form_data.get('Material')];
+        }  
+        if ((form_data.get('Color') != "selected")) {
+            console.log(form_data.get('Color'));
+            fields['Color'] = [form_data.get('Color')];
+        }  
+        if ((form_data.get('Category') != "selected")) {
+            console.log(form_data.get('Category'));
+            fields['Category'] = [form_data.get('Category')];
+        }        
+
+        let data = {
+            'records': [{
+                'fields' : fields
+            }]
+        }
+
+        fetch(`https://api.airtable.com/v0/appzDJ4jK0bk4k3Q7/Content?api_key=${API_KEY}`, {
+            method: 'POST',
+            headers: {'Content-Type' : 'application/json'},
+            body: JSON.stringify(data)
+        }).then((response)=>{
+            console.log(response);
+        }).catch((e)=>{
+            console.error('Erreur : '+ e.message);
+        })
+
+
+    })
+});
