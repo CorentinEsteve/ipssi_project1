@@ -21,8 +21,11 @@
                 </div>
                 <div class="mb-3">
                     <label for="Status" class="col-form-label">Disponibilité</label>
-                    <input type="text" name="Status" class="form-control" id="Status"></input>
-                </div>
+                    <select class="form-select" id="Status" name="Status">
+                        <option value="disponible" selected>Disponible</option>
+                        <option value="indisponible">Indisponible</option>
+                    </select>
+                    </div>
                 <div class="container-form">
                     <div class="form-group">
                         <label for="Category" class="form-label mt-4">Catégorie</label>

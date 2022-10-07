@@ -4,8 +4,19 @@ var id;
 btn_modifier.forEach((btn)=>{
     btn.addEventListener('click', (e)=>{
         e.preventDefault();
-        // console.log(btn);
-        id = btn.parentNode.getAttribute('data-id');
+
+        let card = btn.parentNode;
+        id = card.getAttribute('data-id');
+
+        // let properties = {};
+
+        // card.querySelectorAll('.product_property').forEach((span) => {
+        //     const data_product_property = span.getAttribute('data_product_property')
+        //     properties[data_product_property] = span.innerText;
+        // })
+
+        // const modal = document.querySelector('#exampleModal');
+
     })
 });
 
@@ -30,9 +41,7 @@ btn_envoyer.forEach((btn)=>{
         if ((form_data.get('Quantity').length != 0)) {
             fields['Quantity'] = parseInt(form_data.get('Quantity'));
         }
-        if ((form_data.get('Status').length != 0)) {
-            fields['Status'] = form_data.get('Status');
-        }  
+        fields['Status'] = form_data.get('Status');
         if ((form_data.get('Material') != "selected")) {
             fields['Material'] = [form_data.get('Material')];
         }  

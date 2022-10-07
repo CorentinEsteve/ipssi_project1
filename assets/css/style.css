@@ -55,6 +55,10 @@
     margin-right: 10px;
 }
 
+.card .bg-dark{
+    width: 30%;
+}
+
 .bg-dark{
     display: flex;
     justify-content: space-around;

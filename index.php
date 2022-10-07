@@ -46,7 +46,7 @@ function airtablerequest($url, $token){
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="assets/img/db5b8641-bdd9-43df-924e-d2928e927f4a.jpg"></a>
+            <a class="navbar-brand" href="#"><img src="assets/img/man@2x.webp"> Super-Vetements.fr</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -57,7 +57,7 @@ function airtablerequest($url, $token){
  
     <div class="container-cards">
 
-        <div class="card text-white bg-dark mb-3 mt-3" style="max-width: 20rem;">
+        <div class="card text-white bg-dark mb-3 mt-3">
             <div class="card-header">Ajouter un élément</div>
             <div class="card-body">
                 <button type="button" class="btn btn-success add" data-bs-toggle="modal" data-bs-target="#modal2">Ajouter un élément</button>
